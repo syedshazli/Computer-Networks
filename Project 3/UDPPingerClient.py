@@ -43,6 +43,7 @@ while ptime < 10:
     ptime += 1
     # Format the message to be sent
     #fill in start
+    print('\n')
     userMessage = input('Enter the message you would like to send: ')
     userMessage.encode('UTF-8')
     #fill in end   
@@ -56,11 +57,13 @@ while ptime < 10:
         #fill in start
         
         clientSocket.sendto(userMessage.encode(), (serverHost, serverPort))
-        print("Ping #",ptime)
+        
 	#fill in end
 	# Receive the server response
         #fill in start
         serverMessage, address = clientSocket.recvfrom(serverPort) # check if it should be serverHost
+        
+        print("Ping #",ptime)
 	#fill in end
 	# Get Received time
         messageReceivedTime = time.time()
@@ -70,7 +73,8 @@ while ptime < 10:
 	# Display the server response as an output
      
 	#fill in start
-        print("Server response: ", serverMessage.decode())
+       
+        print("Server response from ",serverHost,": ", serverMessage.decode())
 	#fill in end
 	# Round trip time is the difference between sent and received time
 	#fill in start
@@ -83,19 +87,9 @@ while ptime < 10:
         print("Round trip time: ", roundTrip, " seconds")
 	#fill in end
     except:
-        print("The packet was lost. Sending over the packet again.")
+        print("The packet was lost. Try sending over the packet again.")
         # Server does not response, and assume the packet is lost
-        # we must send the packet again??
-        messageSentTime = time.time()
-        clientSocket.sendto(userMessage.encode(), (serverHost, serverPort))
-        serverMessage, address = clientSocket.recvfrom(serverPort)
-        messageReceivedTime = time.time()
-        print("Server response: ", serverMessage.decode())
-        roundTrip = messageReceivedTime-messageSentTime
-        # Format the datetime object as a string
-        formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        print(formatted_datetime)
-        print("Round trip time: ", roundTrip, " seconds")
+        
         continue
         
 	#fill in start
